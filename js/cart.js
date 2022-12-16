@@ -71,17 +71,22 @@ productsBtn.forEach(el => {
 	el.addEventListener('click', (e) => {
 		let self = e.currentTarget;
 		let parent = self.closest('.product');
+		
 		let id = parent.dataset.id;
 		let img = parent.querySelector('.image-switch__img img').getAttribute('src');
 		let title = parent.querySelector('.product__title').textContent;
 		let priceString = priceWithoutSpaces(parent.querySelector('.product-price__current').textContent);
-		let priceNumber = parseInt(priceWithoutSpaces(parent.querySelector('.product-price__current').textContent));
+		let priceNumber = parseInt(priceWithoutSpaces(parent.querySelector('.product-price__current').textContent))
 
-		plusFullPrice(priceNumber);
+		const elementCountProduct = parent.querySelector('.items__current').textContent
+	
+		plusFullPrice(elementCountProduct * priceNumber);
 
 		printFullPrice();
 
-		cartProductsList.querySelector('.simplebar-content').insertAdjacentHTML('afterbegin', generateCartProduct(img, title, priceString, id));
+		const priceWithCount = `${elementCountProduct} x ${priceString}`
+
+		cartProductsList.querySelector('.simplebar-content').insertAdjacentHTML('afterbegin', generateCartProduct(img, title, priceWithCount, id));
 		printQuantity();
 
 		
