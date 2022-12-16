@@ -8,22 +8,37 @@ if (rangeSlider) {
 		range: {
 			'min': [500],
 			'max': [25000]
-
 		}
 	});
 	const input0 = document.getElementById('input-0');
 	const input1 = document.getElementById('input-1');
 	const inputs = [input0, input1];
 
+	const sortedProductListByPrice = (values) => {
+		const elements = document.querySelectorAll('.product')
+		
+		elements.forEach(el => {
+			const price = +el.dataset.price
+
+			if (price >= +values[0] && price <= +values[1]) {
+				el.parentNode.classList.remove('hide')
+			} else {
+				el.parentNode.classList.add('hide')
+			}
+		})
+	}
+
 	rangeSlider.noUiSlider.on('update', function(values, handle){
+		sortedProductListByPrice(values)
+		
 		inputs[handle].value = Math.round(values[handle]);
 	});
 
 	const setRangeSlider = (i, value) => {
-		let arr = [null, null];
+		let arr = [500, 25000];
 		arr[i] = value;
 
-		console.log(arr);
+		sortedProductListByPrice([arr[0], arr[1]])
 
 		rangeSlider.noUiSlider.set(arr);
 	};
